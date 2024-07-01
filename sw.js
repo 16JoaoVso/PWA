@@ -1,5 +1,5 @@
 // Nome do cache (controle de versão)
-const cacheLucro = 'cache-lucro';
+const CACHE_NAME = 'calculadora-lucro-cache-v1';
 // Arquivos a serem armazenados em cache
 // Todos os arquivos devem ser adicionados ao vetor (exceto ao manifesto)
 const urlsToCache = [
@@ -10,16 +10,6 @@ const urlsToCache = [
   '/lucro.js',
   '/manifest.json'
 ]
-
-// Instalando o Service Worker e armazenando os arquivos no cache
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(cacheLucro)
-      .then((cache) => {
-        return cache.addAll(urlsToCache)
-      })
-  )
-})
 
 self.addEventListener('install', function(event) {
   // Instalação do Service Worker e armazenamento dos arquivos no cache

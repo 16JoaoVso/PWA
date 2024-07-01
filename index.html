@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Preço de Venda</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="lucro.png" type="image/png">
+    <link rel="manifest" href="manifest.json">
 </head>
 <body>
     <h1>Calculadora de Preço de Venda</h1>
@@ -19,7 +21,6 @@
         <button type="button" onclick="limparCampos()">Limpar</button>
         <p id="resultado"></p>
     </form>
-    <script src="lucro.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/sw.js')
@@ -30,6 +31,7 @@
                 })
         }
     </script>
+    <script src="lucro.js"></script>
 </body>
 
 </html>
