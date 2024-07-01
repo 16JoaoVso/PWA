@@ -5,8 +5,10 @@ const cachePWA = 'cache-v1';
 const urlsToCache = [
   '/',
   '/index.html',  
-  '/hal192.png',
-  '/hal512.png'
+  '/lucro.png',
+  '/style.css',
+  '/lucro.js',
+  '/manifest.json'
 ]
 
 // Instalando o Service Worker e armazenando os arquivos no cache
