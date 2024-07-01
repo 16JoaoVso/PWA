@@ -1,18 +1,18 @@
 {
   "name": "Calculadora de Lucro",
   "short_name": "Lucro",
-  "description": "Calculadora de lucro de vendas",
+  "description": "Calculadora de lucro de venda",
   "icons": [
       {
           "src": "lucro.png",
-          "sizes": "128x128",
+          "sizes": "192x192",
           "type": "image/png"
       }
   ],
-  "start_url": "/pwa/",
+  "start_url": "/pwa-lucro/",
   "display": "standalone",
   "background_color": "#fff",
-  "theme_color": "#993399",
+  "theme_color": "#00f000",
   "orientation": "portrait",
   "lang": "pt-br"
 }
