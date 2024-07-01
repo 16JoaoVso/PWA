@@ -1,5 +1,5 @@
 // Nome do cache (controle de versão)
-const cachePWA = 'cache-v1';
+const cacheLucro = 'cache-lucro';
 // Arquivos a serem armazenados em cache
 // Todos os arquivos devem ser adicionados ao vetor (exceto ao manifesto)
 const urlsToCache = [
@@ -14,24 +14,67 @@ const urlsToCache = [
 // Instalando o Service Worker e armazenando os arquivos no cache
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(cachePWA)
+    caches.open(cacheLucro)
       .then((cache) => {
         return cache.addAll(urlsToCache)
       })
   )
 })
 
-// Interceptando as solicitações de rede e servindo arquivos do cache quando offline
-self.addEventListener('fetch', (event) => {
+self.addEventListener('install', function(event) {
+  // Instalação do Service Worker e armazenamento dos arquivos no cache
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(function(cache) {
+        console.log('Cache aberto');
+        return cache.addAll(urlsToCache);
+      })
+  );
+});
+
+self.addEventListener('activate', function(event) {
+  // Limpa caches antigos durante a ativação do Service Worker
+  event.waitUntil(
+    caches.keys().then(function(cacheNames) {
+      return Promise.all(
+        cacheNames.filter(function(cacheName) {
+          return cacheName !== CACHE_NAME;
+        }).map(function(cacheName) {
+          console.log('Excluindo cache:', cacheName);
+          return caches.delete(cacheName);
+        })
+      );
+    })
+  );
+});
+
+self.addEventListener('fetch', function(event) {
   event.respondWith(
     caches.match(event.request)
-      .then((response) => {
-        // Se o arquivo está no cache, serve o arquivo do cache
+      .then(function(response) {
+        // Cache hit - retorna a resposta do cache
         if (response) {
-          return response
+          return response;
         }
-        // Caso contrário, faz uma solicitação de rede
+
+        // Não há cache, faz uma solicitação de rede
         return fetch(event.request)
+          .then(function(response) {
+            // Verifica se a resposta é válida
+            if (!response || response.status !== 200 || response.type !== 'basic') {
+              return response;
+            }
+
+            // Clona a resposta para armazenar em cache
+            var responseToCache = response.clone();
+
+            caches.open(CACHE_NAME)
+              .then(function(cache) {
+                cache.put(event.request, responseToCache);
+              });
+
+            return response;
+          });
       })
-  )
-})
+  );
+});
